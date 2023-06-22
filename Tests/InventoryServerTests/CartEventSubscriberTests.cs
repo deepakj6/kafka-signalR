@@ -7,12 +7,12 @@ namespace InventoryServerTests
     public class CartEventSubscriberTests : IClassFixture<CartEventSubscriberFixture>
     {
         private readonly CartEventSubscriberFixture _fixture;
-        private readonly ILogger<KafkaTesting> _logger;
+        private readonly ILogger<CartEventSubscriberTests> _logger;
 
         public CartEventSubscriberTests(CartEventSubscriberFixture fixture)
         {
             _fixture = fixture;
-            _logger = new LoggerFactory().CreateLogger<KafkaTesting>();
+            _logger = new LoggerFactory().CreateLogger<CartEventSubscriberTests>();
         }
 
         [Fact]
