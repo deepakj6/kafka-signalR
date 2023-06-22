@@ -1,6 +1,4 @@
-using InventoryServer.Extensions;
-
-namespace InventoryServer
+namespace CartServer
 {
     public class Program
     {
@@ -8,9 +6,7 @@ namespace InventoryServer
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.ConfigureKafkaDependencies(builder.Configuration);    
-            
-            builder.Services.InjectServiceDependencies(builder.Configuration);
+            // Add services to the container.
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -29,7 +25,8 @@ namespace InventoryServer
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-            
+
+
             app.MapControllers();
 
             app.Run();

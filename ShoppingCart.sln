@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InventoryServer", "Applicat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryServerTests", "Tests\InventoryServerTests\InventoryServerTests.csproj", "{367903C2-BA03-4B4D-B1CA-E0D10C2F463F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryWorker", "Applications\InventoryWorker\InventoryWorker.csproj", "{13285654-87F3-434E-A877-DBFBA4BA6B17}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CartServer", "Applications\CartServer\CartServer.csproj", "{D4BD63CD-3FE3-46E4-8682-BB83AB8EB011}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{367903C2-BA03-4B4D-B1CA-E0D10C2F463F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{367903C2-BA03-4B4D-B1CA-E0D10C2F463F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{367903C2-BA03-4B4D-B1CA-E0D10C2F463F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13285654-87F3-434E-A877-DBFBA4BA6B17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13285654-87F3-434E-A877-DBFBA4BA6B17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13285654-87F3-434E-A877-DBFBA4BA6B17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13285654-87F3-434E-A877-DBFBA4BA6B17}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4BD63CD-3FE3-46E4-8682-BB83AB8EB011}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4BD63CD-3FE3-46E4-8682-BB83AB8EB011}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4BD63CD-3FE3-46E4-8682-BB83AB8EB011}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4BD63CD-3FE3-46E4-8682-BB83AB8EB011}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

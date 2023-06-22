@@ -1,0 +1,22 @@
+{
+  "fields": [
+    {
+      "name": "version",
+      "type": "string"
+    },
+    {
+      "name": "cartId",
+      "type": "string"
+    },
+    {
+      "name": "bookId",
+      "type": "string"
+    },
+    {
+      "name": "quantity",
+      "type": "int"
+    }
+  ],
+  "name": "add_to_cart_started",
+  "type": "record"
+}
