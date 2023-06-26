@@ -4,27 +4,25 @@ using Microsoft.Extensions.Logging;
 
 namespace InventoryServerTests
 {
-    public class CartEventSubscriberTests : IClassFixture<CartEventSubscriberFixture>
+    public class CartEventSubscriberTests
     {
-        private readonly CartEventSubscriberFixture _fixture;
         private readonly ILogger<CartEventSubscriberTests> _logger;
 
-        public CartEventSubscriberTests(CartEventSubscriberFixture fixture)
+        public CartEventSubscriberTests()
         {
-            _fixture = fixture;
             _logger = new LoggerFactory().CreateLogger<CartEventSubscriberTests>();
         }
 
         [Fact]
-        public void ConsumeSingleEventFromKafka()
+        public void Consume_All_Events_From_Topic_Cart_Events()
         {
             var config = new ConsumerConfig
             {
                 //Note: Do not hardcode the username and passwords.
                 //For testing, edit these properties before running the tests.
-                BootstrapServers = "",
-                SaslUsername = "",
-                SaslPassword = "",
+                BootstrapServers = "pkc-56d1g.eastus.azure.confluent.cloud:9092",
+                SaslUsername = "XGSVY4BDG6NQHNLH",
+                SaslPassword = "PWdtjHepHAD2RILbDq8H+v3wxS3jSuOWfGI/YKjKqlPS1cHCf+k7DH96oWBShxb2",
                 SecurityProtocol = SecurityProtocol.SaslSsl,
                 SaslMechanism = SaslMechanism.Plain,
                 GroupId = "proxy:101" + Guid.NewGuid().ToString(),
@@ -46,7 +44,6 @@ namespace InventoryServerTests
                         var cartData = Newtonsoft.Json.JsonConvert.DeserializeObject<CartEventMessage>(result.Value);
 
                         _logger.LogInformation(cartData.ToString());
-                        ProcessEvent(result.Key, cartData);
                     }
                     else
                     {
@@ -61,18 +58,6 @@ namespace InventoryServerTests
                 _logger.LogInformation(ex.ToString());
             }
 
-        }
-
-        private void HandleException(Error error)
-        {
-            // Handle the error as needed
-            _logger.LogInformation($"Kafka error: {error.Reason}");
-        }
-
-        private void ProcessEvent(string key, CartEventMessage value)
-        {
-            // Process the consumed event
-            _logger.LogInformation($"Received event. Key: {key}, Value: {value}");
         }
     }
 }

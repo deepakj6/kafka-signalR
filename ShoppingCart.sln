@@ -5,11 +5,13 @@ VisualStudioVersion = 17.4.33122.133
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InventoryServer", "Applications\InventoryServer\InventoryServer.csproj", "{FFE3693B-D4E1-4760-AEDC-E6174FC406C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryServerTests", "Tests\InventoryServerTests\InventoryServerTests.csproj", "{367903C2-BA03-4B4D-B1CA-E0D10C2F463F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InventoryServerTests", "Tests\InventoryServerTests\InventoryServerTests.csproj", "{367903C2-BA03-4B4D-B1CA-E0D10C2F463F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryWorker", "Applications\InventoryWorker\InventoryWorker.csproj", "{13285654-87F3-434E-A877-DBFBA4BA6B17}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InventoryWorker", "Applications\InventoryWorker\InventoryWorker.csproj", "{13285654-87F3-434E-A877-DBFBA4BA6B17}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CartServer", "Applications\CartServer\CartServer.csproj", "{D4BD63CD-3FE3-46E4-8682-BB83AB8EB011}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CartServer", "Applications\CartServer\CartServer.csproj", "{D4BD63CD-3FE3-46E4-8682-BB83AB8EB011}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CartServerTests", "Tests\CartServerTests\CartServerTests.csproj", "{70B5E3EA-BBB6-40F6-A0D1-A58C79929F80}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{D4BD63CD-3FE3-46E4-8682-BB83AB8EB011}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D4BD63CD-3FE3-46E4-8682-BB83AB8EB011}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D4BD63CD-3FE3-46E4-8682-BB83AB8EB011}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70B5E3EA-BBB6-40F6-A0D1-A58C79929F80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70B5E3EA-BBB6-40F6-A0D1-A58C79929F80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70B5E3EA-BBB6-40F6-A0D1-A58C79929F80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70B5E3EA-BBB6-40F6-A0D1-A58C79929F80}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

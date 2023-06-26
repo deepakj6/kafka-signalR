@@ -31,8 +31,6 @@ namespace CartServer.Services.Publishers
 
             _producer.ProduceAsync("cart_events", message);
         }
-
-        // Implement other event publishing methods...
     }
 
 }
