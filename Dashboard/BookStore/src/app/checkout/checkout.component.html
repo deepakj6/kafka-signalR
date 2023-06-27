@@ -1,0 +1,11 @@
+<h2>Checkout</h2>
+<div *ngIf="cartItems.length > 0">
+  <h3>Items in Cart</h3>
+  <ul>
+    <li *ngFor="let item of cartItems">{{ item.title }} - ${{ item.price }}</li>
+  </ul>
+  <button (click)="confirmAndPay()">Confirm and Pay</button>
+</div>
+<div *ngIf="cartItems.length === 0">
+  <p>No items in the cart.</p>
+</div>

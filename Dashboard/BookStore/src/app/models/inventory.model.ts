@@ -11,6 +11,7 @@ export interface Book {
   price: number;
   quantity: number;
   bookCollectionId: string;
+  addedToCart: boolean;
 }
 
 export interface BookCollection {
