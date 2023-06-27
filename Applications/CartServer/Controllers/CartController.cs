@@ -1,6 +1,6 @@
-﻿using CartServer.Extensions;
-using CartServer.Models;
-using CartServer.Services.Publishers;
+﻿using CartServer.Configuration;
+using CartServer.Contracts.Requests;
+using CartServer.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CartServer.Controllers
@@ -9,53 +9,48 @@ namespace CartServer.Controllers
     [Route("api/carts")]
     public class CartController : ControllerBase
     {
-        private readonly ICartEventPublisher _eventPublisher;
+        private readonly ICartService _cartService;
 
-        public CartController(ICartEventPublisher eventPublisher)
+        public CartController(ICartService cartService)
         {
-            _eventPublisher = eventPublisher;
+            _cartService = cartService;
         }
+
+
         [HttpGet]
-        public IActionResult GetCart()
+        public async Task<IActionResult> GetCart()
         {
-            // Retrieve the cart from the session
-            var cart = HttpContext.Session.GetObjectFromJson<Cart>("Cart");
-
-            // If the cart doesn't exist in the session, create a new one
-            if (cart == null)
-            {
-                cart = new Cart();
-                HttpContext.Session.SetObjectAsJson("Cart", cart);
-            }
-
-            return Ok(cart);
+            var carts = await _cartService.GetAllCarts();
+            return Ok(carts);
         }
+
 
         [HttpPost]
-        public IActionResult AddToCart(CartItem cartItem)
+        public async Task<IActionResult> CreateCart([FromBody] CartRequest cart)
         {
-            // Retrieve the cart from the session
-            var cart = HttpContext.Session.GetObjectFromJson<Cart>("Cart");
-
-            // If the cart doesn't exist in the session, create a new one
             if (cart == null)
             {
-                // Publish the add_to_cart_started event
-                _eventPublisher.PublishAddToCartStarted(cartItem.BookId, cartItem.BookTitle, cartItem.BookCollectionId, cartItem.Quantity, cartItem.Price);
-
-                cart = new Cart();
-                HttpContext.Session.SetObjectAsJson("Cart", cart);
+                return BadRequest();
             }
-
-            // Add the cart item to the cart
-            cart.Items.Add(cartItem);
-
-            // Save the updated cart back to the session
-            HttpContext.Session.SetObjectAsJson("Cart", cart);
-
-            return Ok();
+            var created = await _cartService.CreateCart(cart);
+            return Ok(created);
         }
 
+
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> AddToCart([FromQuery] long id, [FromBody] CartItemRequest cartItem)
+        {
+            try
+            {
+                var added = await _cartService.UpdateCart(id, cartItem);
+                return Ok(added);
+            }
+            catch (NotFoundException)
+            {
+                return NotFound();
+            }
+        }
     }
 
 }

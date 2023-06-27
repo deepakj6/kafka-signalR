@@ -1,12 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using CartServer.Models;
 
-namespace CartServer.Models
+namespace CartServer.Contracts.Responses
 {
-    public class Cart
+    public class CartResponse
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
         public string UserId { get; set; }
         public List<CartItem> Items { get; set; } = new List<CartItem>();

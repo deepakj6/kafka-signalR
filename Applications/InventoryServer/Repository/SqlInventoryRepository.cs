@@ -56,7 +56,7 @@ namespace InventoryServer.Repository
 
         public BookCollection GetBookCollection(string id)
         {
-            return _dbContext.BookCollections.Find(id);
+            return _dbContext?.BookCollections?.Find(id);
         }
 
         public IEnumerable<BookCollection> GetAllBookCollections()

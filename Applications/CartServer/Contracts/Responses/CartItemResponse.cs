@@ -1,16 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace CartServer.Models
+﻿namespace CartServer.Contracts.Responses
 {
-    public class CartItem
+    public class CartItemResponse
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
-
-        //Foreign Key relationship
-        [ForeignKey("Cart")]
         public long CartId { get; set; }
         public string BookId { get; set; }
         public string BookTitle { get; set; }
