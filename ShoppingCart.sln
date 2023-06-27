@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InventoryWorker", "Applicat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CartServer", "Applications\CartServer\CartServer.csproj", "{D4BD63CD-3FE3-46E4-8682-BB83AB8EB011}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CartServerTests", "Tests\CartServerTests\CartServerTests.csproj", "{70B5E3EA-BBB6-40F6-A0D1-A58C79929F80}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CartServerTests", "Tests\CartServerTests\CartServerTests.csproj", "{70B5E3EA-BBB6-40F6-A0D1-A58C79929F80}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "BookStore", "Dashboard\BookStore\BookStore.esproj", "{9E53461A-DF46-41AF-8FBF-03389D42795F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,12 @@ Global
 		{70B5E3EA-BBB6-40F6-A0D1-A58C79929F80}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{70B5E3EA-BBB6-40F6-A0D1-A58C79929F80}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{70B5E3EA-BBB6-40F6-A0D1-A58C79929F80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E53461A-DF46-41AF-8FBF-03389D42795F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E53461A-DF46-41AF-8FBF-03389D42795F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E53461A-DF46-41AF-8FBF-03389D42795F}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{9E53461A-DF46-41AF-8FBF-03389D42795F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E53461A-DF46-41AF-8FBF-03389D42795F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E53461A-DF46-41AF-8FBF-03389D42795F}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,12 +1,11 @@
 using InventoryServer.Models;
 using InventoryServer.Repository;
-using InventoryServer.Services.Repository;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InventoryServer.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("/api/[controller]")]
     public class InventoryController : ControllerBase
     {
         private readonly ILogger<InventoryController> _logger;

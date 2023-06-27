@@ -1,0 +1,31 @@
+<div *ngIf="inventory">
+  <h2>Inventory</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Description</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Collection</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let book of inventory.books">
+        <td>{{ book.title }}</td>
+        <td>{{ book.author }}</td>
+        <td>{{ book.description }}</td>
+        <td>${{ book.price }}</td>
+        <td>{{ book.quantity }}</td>
+        <td>{{ book.bookCollectionId }}</td>
+        <td>
+          <button (click)="addToCart(book)">Add to Cart</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <button (click)="checkout()">Checkout</button>
+</div>
