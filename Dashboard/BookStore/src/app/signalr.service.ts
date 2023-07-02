@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { Book } from './models/inventory.model';
-import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 
 @Injectable({
@@ -9,12 +8,15 @@ import { Observable, Subject } from 'rxjs';
 })
 export class SignalRService {
   private hubConnection!: HubConnection;
-  private inventoryUpdatesSubject: Subject<Book> = new Subject<Book>();
+  private bookAddedSubject: Subject<Book> = new Subject<Book>();
+  private bookUpdatedSubject: Subject<Book> = new Subject<Book>();
+  private bookDeletedSubject: Subject<Book> = new Subject<Book>();
 
-  constructor(private http: HttpClient) { }
+  constructor() { }
+
   startConnection(): void {
     this.hubConnection = new HubConnectionBuilder()
-      .withUrl('https://localhost:5000/inventoryhub') 
+      .withUrl('https://localhost:5000/inventoryhub')
       .build();
 
     this.hubConnection.start()
@@ -26,15 +28,20 @@ export class SignalRService {
   }
 
   registerOnServerUpdates(): void {
-    this.hubConnection.on('InventoryUpdated', (book: Book, action: string) => {
-      console.log('Received inventory update:', book);
-      // Emit the received book to the subscribers
-      this.inventoryUpdatesSubject.next(book);
+    this.hubConnection.on('BookAdded', (book: Book) => {
+      console.log('Received book added event:', book);
+      this.bookAddedSubject.next(book);
     });
-  }
 
-  getInventoryUpdates(): Observable<Book> {
-    return this.inventoryUpdatesSubject.asObservable();
+    this.hubConnection.on('BookUpdated', (book: Book) => {
+      console.log('Received book updated event:', book);
+      this.bookUpdatedSubject.next(book);
+    });
+
+    this.hubConnection.on('BookDeleted', (book: Book) => {
+      console.log('Received book deleted event:', book);
+      this.bookDeletedSubject.next(book);
+    });
   }
 
   confirmAndPay(cartItems: Book[]): void {
@@ -43,15 +50,15 @@ export class SignalRService {
       .catch(err => console.error('Error while confirming and paying:', err));
   }
 
-/*  confirmAndPay(cartItems: Book[]): void {
-    // Make the necessary API request or perform any action you need
-    this.http.post<any>('http://your-api-url/confirm-and-pay', cartItems)
-      .subscribe(
-        response => {
-          console.log('Confirm and pay initiated. Items in cart:', cartItems);
-          // Handle the response as needed
-        },
-        error => console.error('Error while confirming and paying:', error)
-      );
-  }*/
+  getBookAdded(): Observable<Book> {
+    return this.bookAddedSubject.asObservable();
+  }
+
+  getBookUpdated(): Observable<Book> {
+    return this.bookUpdatedSubject.asObservable();
+  }
+
+  getBookDeleted(): Observable<Book> {
+    return this.bookDeletedSubject.asObservable();
+  }
 }

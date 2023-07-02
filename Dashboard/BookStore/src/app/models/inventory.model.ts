@@ -18,3 +18,8 @@ export interface BookCollection {
   id: string;
   name: string;
 }
+
+export interface InventoryUpdateEvent {
+  book: Book;
+  action: string;
+}

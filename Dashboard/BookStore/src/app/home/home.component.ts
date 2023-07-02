@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { Inventory, Book, BookCollection } from '../models/inventory.model';
+import { Inventory, Book, BookCollection, InventoryUpdateEvent } from '../models/inventory.model';
 import { SignalRService } from '../signalr.service';
 import { ToastrService } from 'ngx-toastr';
+
 
 
 
@@ -24,14 +25,36 @@ export class HomeComponent implements OnInit {
     this.loadCartItems();
 
     this.signalRService.startConnection();
-    this.signalRService.getInventoryUpdates().subscribe((book: Book) => {
-      // Handle the received inventory update
-      console.log('Received inventory update:', book);
-      // Update the UI or perform any necessary actions based on the update
+
+    // Subscribe to BookAdded event
+    this.signalRService.getBookAdded().subscribe((book: Book) => {
       this.updateInventory(book);
       this.toastr.info(`Inventory updated for book: ${book.title}`);
-      //this.cdr.detectChanges(); 
     });
+
+    // Subscribe to BookUpdated event
+    this.signalRService.getBookUpdated().subscribe((book: Book) => {
+      this.updateInventory(book);
+      this.toastr.info(`Inventory updated for book: ${book.title}`);
+    });
+
+    // Subscribe to BookDeleted event
+    this.signalRService.getBookDeleted().subscribe((book: Book) => {
+      this.deleteBookFromInventory(book);
+      this.toastr.info(`Book deleted from inventory: ${book.title}`);
+    });
+  }
+
+
+
+
+  deleteBookFromInventory(book: Book): void {
+    if (this.inventory) {
+      const bookIndex = this.inventory.books.findIndex(b => b.id === book.id);
+      if (bookIndex !== -1) {
+        this.inventory.books.splice(bookIndex, 1); // Remove the book from the array
+      }
+    }
   }
 
 
@@ -39,10 +62,15 @@ export class HomeComponent implements OnInit {
     if (this.inventory) {
       const bookIndex = this.inventory.books.findIndex(b => b.id === book.id);
       if (bookIndex !== -1) {
-        this.inventory.books[bookIndex] = { ...book }; // Replace the book with a new object containing updated properties
+        // Book already exists, update its properties
+        this.inventory.books[bookIndex] = { ...book };
+      } else {
+        // Book doesn't exist, add it to the inventory
+        this.inventory.books.push({ ...book });
       }
     }
   }
+
 
 
   addToCart(book: Book): void {
@@ -83,22 +111,13 @@ export class HomeComponent implements OnInit {
 
 
 
-  checkout(): void {
-    // Perform the checkout logic here
+  checkout(): void {    
     console.log('Checkout initiated. Items in cart:', this.cart);
-    // Reset the cart after checkout
-    //this.cart = [];
-    //Navigate to the checkout page
     const cartItemsString = JSON.stringify(this.cart);
     this.router.navigateByUrl('/checkout');
-    
-    //this.router.navigate(['/checkout'], { queryParams: { cart: cartItemsString } });
+   
   }
-/*
-  checkout(): void {
-    const cartItems = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')!) : [];
-    localStorage.setItem('cartItems', JSON.stringify(cartItems));
-  }*/
+
 
   loadCartItems(): void {
     const cartItems = localStorage.getItem('cartItems');

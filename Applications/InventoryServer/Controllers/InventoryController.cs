@@ -42,7 +42,7 @@ namespace InventoryServer.Controllers
             _repository.AddBook(book);
 
             // Send the updated inventory to all connected clients
-            await _inventoryHubContext.Clients.All.SendAsync("InventoryUpdated", book, "InventoryAdded");
+            await _inventoryHubContext.Clients.All.SendAsync("BookAdded", book);
 
             // Return the created book with a 201 Created status
             return CreatedAtAction(nameof(GetBook), new { id = book.Id }, book);
@@ -84,7 +84,7 @@ namespace InventoryServer.Controllers
             _repository.UpdateBook(book);
 
             // Send the updated inventory to all connected clients
-            await _inventoryHubContext.Clients.All.SendAsync("InventoryUpdated", book, "InventoryUpdated");
+            await _inventoryHubContext.Clients.All.SendAsync("BookUpdated", book);
 
             // Return the updated book
             return book;
@@ -105,7 +105,7 @@ namespace InventoryServer.Controllers
             _repository.DeleteBook(id);
 
             // Send the updated inventory to all connected clients
-            await _inventoryHubContext.Clients.All.SendAsync("InventoryUpdated", book, "InventoryDeleted");
+            await _inventoryHubContext.Clients.All.SendAsync("BookDeleted", book);
 
             // Return a 204 No Content response
             return NoContent();
