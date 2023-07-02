@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Book } from '../models/inventory.model';
+import { SignalRService } from '../signalr.service';
 
 @Component({
   selector: 'app-checkout',
@@ -10,7 +11,7 @@ import { Book } from '../models/inventory.model';
 export class CheckoutComponent implements OnInit {
   cartItems: Book[] = [];
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute, private signalRService: SignalRService) { }
 
   ngOnInit(): void {
     this.getCartItems();
@@ -22,9 +23,15 @@ export class CheckoutComponent implements OnInit {
     }
   }
 
-  confirmAndPay(): void {
+  confirmAndPay1(): void {
     // Perform the confirm and pay logic here
     console.log('Confirm and pay initiated. Items in cart:', this.cartItems);
+    // Reset the cart after confirming and paying
+    this.cartItems = [];
+  }
+
+  confirmAndPay(): void {
+    this.signalRService.confirmAndPay(this.cartItems);
     // Reset the cart after confirming and paying
     this.cartItems = [];
   }

@@ -2,6 +2,10 @@ import { AppRoutingModule } from '../app-routing.module';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+
+import { ToastrModule } from 'ngx-toastr';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -14,7 +18,7 @@ import { CheckoutComponent } from './checkout/checkout.component';
     CheckoutComponent
   ],
   imports: [
-    BrowserModule, AppRoutingModule, HttpClientModule 
+    BrowserModule, AppRoutingModule, HttpClientModule, ToastrModule.forRoot(), BrowserAnimationsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

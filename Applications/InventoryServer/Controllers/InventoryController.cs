@@ -1,6 +1,8 @@
+using InventoryServer.Communication;
 using InventoryServer.Models;
 using InventoryServer.Repository;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace InventoryServer.Controllers
 {
@@ -10,16 +12,18 @@ namespace InventoryServer.Controllers
     {
         private readonly ILogger<InventoryController> _logger;
         private readonly IInventoryRepository _repository;
+        private readonly IHubContext<InventoryHub> _inventoryHubContext;
 
-        public InventoryController(ILogger<InventoryController> logger, IInventoryRepository repository)
+        public InventoryController(ILogger<InventoryController> logger, IInventoryRepository repository, IHubContext<InventoryHub> inventoryHubContext)
         {
             _logger = logger;
             _repository = repository;
+            _inventoryHubContext = inventoryHubContext;
         }
 
         // Existing GET endpoint to retrieve the inventory
         [HttpGet]
-        public ActionResult<Inventory> Get()
+        public async Task<ActionResult<Inventory>> Get()
         {
             var inventory = _repository.GetInventory();
             return inventory;
@@ -27,7 +31,7 @@ namespace InventoryServer.Controllers
 
         // New POST endpoint to add a book
         [HttpPost("books")]
-        public ActionResult<Book> AddBook([FromBody] Book book)
+        public async Task<ActionResult<Book>> AddBook([FromBody] Book book)
         {
             if (book is null || !ModelState.IsValid)
             {
@@ -37,13 +41,16 @@ namespace InventoryServer.Controllers
             // Add the book to the inventory
             _repository.AddBook(book);
 
+            // Send the updated inventory to all connected clients
+            await _inventoryHubContext.Clients.All.SendAsync("InventoryUpdated", book, "InventoryAdded");
+
             // Return the created book with a 201 Created status
             return CreatedAtAction(nameof(GetBook), new { id = book.Id }, book);
         }
 
         // New GET endpoint to retrieve a specific book
         [HttpGet("books/{id}")]
-        public ActionResult<Book> GetBook(string id)
+        public async Task<ActionResult<Book>> GetBook(string id)
         {
             var book = _repository.GetBook(id);
 
@@ -57,7 +64,7 @@ namespace InventoryServer.Controllers
 
         // New PUT endpoint to update a book
         [HttpPut("books/{id}")]
-        public ActionResult<Book> UpdateBook(string id, [FromBody] Book updatedBook)
+        public async Task<ActionResult<Book>> UpdateBook(string id, [FromBody] Book updatedBook)
         {
             var book = _repository.GetBook(id);
 
@@ -76,13 +83,16 @@ namespace InventoryServer.Controllers
             // Save the changes
             _repository.UpdateBook(book);
 
+            // Send the updated inventory to all connected clients
+            await _inventoryHubContext.Clients.All.SendAsync("InventoryUpdated", book, "InventoryUpdated");
+
             // Return the updated book
             return book;
         }
 
         // New DELETE endpoint to delete a book
         [HttpDelete("books/{id}")]
-        public ActionResult DeleteBook(string id)
+        public async Task<ActionResult> DeleteBook(string id)
         {
             var book = _repository.GetBook(id);
 
@@ -94,10 +104,12 @@ namespace InventoryServer.Controllers
             // Remove the book from the inventory
             _repository.DeleteBook(id);
 
+            // Send the updated inventory to all connected clients
+            await _inventoryHubContext.Clients.All.SendAsync("InventoryUpdated", book, "InventoryDeleted");
+
             // Return a 204 No Content response
             return NoContent();
         }
+
     }
-
-
 }

@@ -1,5 +1,4 @@
 <div *ngIf="inventory">
-  <h2>Inventory</h2>
   <div class="card-container">
     <div class="card" *ngFor="let book of inventory.books">
       <div class="card-body">
@@ -8,8 +7,8 @@
         <p class="card-text">{{ book.description }}</p>
         <p class="card-text"><strong>Price:</strong> ${{ book.price }}</p>
         <p class="card-text"><strong>In Stock:</strong> {{ book.quantity }}</p>
-       <!-- <p class="card-text"><strong>Collection:</strong> {{ getBookCollectionName(book.bookCollectionId) }}</p>-->
-        <button class="btn btn-primary" [disabled]="book.addedToCart || book.quantity === 0" (click)="addToCart(book)">Add to Cart</button>
+        <p class="card-text"><strong>Quantity in Cart:</strong> {{ getQuantityInCart(book) }}</p>
+        <button class="btn btn-primary" [disabled]="isAddToCartDisabled(book)" (click)="addToCart(book)">Add to Cart</button>
       </div>
     </div>
   </div>

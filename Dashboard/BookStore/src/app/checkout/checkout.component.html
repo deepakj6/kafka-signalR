@@ -1,11 +1,14 @@
 <h2>Checkout</h2>
-<div *ngIf="cartItems.length > 0">
-  <h3>Items in Cart</h3>
-  <ul>
-    <li *ngFor="let item of cartItems">{{ item.title }} - ${{ item.price }}</li>
-  </ul>
-  <button (click)="confirmAndPay()">Confirm and Pay</button>
+<div class="card-container" *ngIf="cartItems.length > 0">
+  <div class="card" *ngFor="let item of cartItems">
+    <div class="card-body">
+      <h5 class="card-title">{{ item.title }}</h5>
+      <p class="card-text"><strong>Price:</strong> ${{ item.price }}</p>
+      <p class="card-text"><strong>Quantity:</strong> {{ item.quantity }}</p> <!-- Add quantity display -->
+    </div>
+  </div>
 </div>
 <div *ngIf="cartItems.length === 0">
   <p>No items in the cart.</p>
 </div>
+<button class="btn btn-primary" *ngIf="cartItems.length > 0" (click)="confirmAndPay()">Confirm and Pay</button> <!-- Move the button inside the card-container -->

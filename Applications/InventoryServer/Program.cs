@@ -1,3 +1,4 @@
+using InventoryServer.Communication;
 using InventoryServer.Extensions;
 
 namespace InventoryServer
@@ -8,9 +9,27 @@ namespace InventoryServer
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.ConfigureKafkaDependencies(builder.Configuration);    
-            
+            builder.Services.ConfigureKafkaDependencies(builder.Configuration);
+
             builder.Services.InjectServiceDependencies(builder.Configuration);
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowOrigin", builder =>
+                {
+                    builder.WithOrigins("http://localhost:4200")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
+
+
+            // Register the hub context
+            builder.Services.AddHttpContextAccessor(); // Required for accessing the HttpContext in the hub context
+            builder.Services.AddSignalR(); // Add SignalR services
+            //_=builder.Services.AddHub<InventoryHub>();
+
+
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -26,11 +45,23 @@ namespace InventoryServer
                 app.UseSwaggerUI();
             }
 
+            app.UseCors("AllowOrigin");
+
             app.UseHttpsRedirection();
 
+
+
+            app.UseRouting();
+
             app.UseAuthorization();
-            
-            app.MapControllers();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+                endpoints.MapHub<InventoryHub>("/inventoryhub");
+                // Map other endpoints as needed
+            });
+
 
             app.Run();
         }
